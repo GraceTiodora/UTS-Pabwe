@@ -13,3 +13,8 @@ tugas diana manurung
 1. membuat app blade
 2. membuat blade home
 3. membuat blade register
+
+tugas pariama valentino
+1. membuat blade participant
+2. membuat blade participant pdf
+3. membuat erd
