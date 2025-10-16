@@ -1,31 +1,30 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use App\Models\Participant;
-use Illuminate\Http\Request;
+use App\Models\Event;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class RegistrationController extends Controller
+class ParticipantController extends Controller
 {
-    public function create(Request $request)
+    public function index()
     {
-        $events = Event::orderBy('date')->get();
-        $selected = $request->query('event_id'); // preselect
-        return view('register', compact('events','selected'));
+        $participants = Participant::with('event')->latest()->get();
+        return view('participants', compact('participants'));
     }
 
-    public function store(Request $request)
+    public function destroy(Participant $participant)
     {
-        $data = $request->validate([
-            'name'    => 'required|string|min:3',
-            'email'   => 'required|email',
-            'event_id'=> 'required|exists:events,id',
-        ]);
+        $participant->delete();
+        return back()->with('success','Peserta dihapus.');
+    }
 
-        Participant::create($data);
-
-        return redirect()->route('participants.index')
-            ->with('success', 'Pendaftaran berhasil!');
+    public function exportPdf()
+    {
+        $participants = Participant::with('event')->orderBy('created_at')->get();
+        $pdf = Pdf::loadView('participants_pdf', compact('participants'))
+                  ->setPaper('a4','portrait');
+        return $pdf->download('peserta_acara.pdf');
     }
 }
+
