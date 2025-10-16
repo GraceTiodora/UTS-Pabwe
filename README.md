@@ -7,5 +7,9 @@ tugas seprian
 tugas GraceTiodora (PM)
 1. database connectivity
 2. membuat enviroment laravel
-3. membantu membuat model dan migration
+3. membuat database seeder
 
+tugas diana manurung
+1. membuat app blade
+2. membuat blade home
+3. membuat blade register
